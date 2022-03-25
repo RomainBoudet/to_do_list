@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './style.scss';
 
-const Task = ({ list, onCheck }) => (
+const Task = ({ list, onCheck, onDelete }) => (
   <ul className="todo-list">
     {list.map((item) => (
       <li className={item.done ? 'todo todo--done' : 'todo'} key={item.id}>
@@ -13,7 +13,15 @@ const Task = ({ list, onCheck }) => (
             onCheck(item);
           }}
         />
-        <span className="todo-checkbox">{item.label}</span>
+        <span className="todo--text">{item.label}</span>
+        <button 
+        className='todo--remove' 
+        type="button"
+        onClick={() => {
+          onDelete(item)
+        }}
+        >X
+        </button>
       </li>
     ))}
 
@@ -27,6 +35,7 @@ Task.propTypes = {
     done: PropTypes.bool.isRequired,
   })).isRequired,
   onCheck: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
 
 };
 export default Task;

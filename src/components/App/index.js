@@ -78,6 +78,16 @@ class App extends React.Component {
     return newList;
   }
 
+  deleteTask = (task) => {
+    // une nouvelle list de task sans celle passé en paramétre
+  console.log(`id de la targer a supprimé : ${task}`);
+  const {list} = this.state;
+  const newList = list.filter((item)=> task.id !== item.id); // garde qu si différent de item.id...
+  this.setState({
+    list: newList,
+  }) 
+  }
+
   render() {
     const { inputTask } = this.state;
     return (
@@ -92,6 +102,7 @@ class App extends React.Component {
           list={this.getToDoSorted()}
           key={inputTask}
           onCheck={this.handlecheckTask}
+          onDelete={this.deleteTask}
         />
       </div>
 
