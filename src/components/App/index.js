@@ -3,6 +3,7 @@
 // situé a la racine du fichier src.
 // == Import npm
 import React from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 // == Import
 import './styles.scss';
@@ -15,26 +16,50 @@ import data from '../../data/data';
 
 class App extends React.Component {
   state={
-    inputTask: 'Text en cours de saisi...',
+    inputTask: '',
     list: data,
   }
 
   handleInputChange = (newValue) => {
-    console.log('user a tapé :', newValue);
     this.setState({
       inputTask: newValue,
     });
   }
 
   handleInputSubmit = () => {
-    // je push dans data ma nouvelle data dans mon tableau d'objet
+    // je met a jour mon state avec un nouvel objet en plus.
     // avec la valeur false dans ma propriétés done !
-    console.log('Un nouvelle objet dans mes données ! ');
+    const { inputTask, list } = this.state;
+    const newTask = {
+      id: uuidv4(),
+      label: inputTask,
+      done: false,
+    };
+    // j'utilise le reste opértor, et je met le new task en premier.
+    // Puis je met a jour mon state.
+    this.setState({
+      list: [newTask, ...list],
+      inputTask: '',
+    });
   }
 
   handlecheckTask = (task) => {
   // je passe a true, la propriété 'done' dans mes données, pour la task en paramétre !
-    console.log(`La propriété 'done' de la tache ${task.id} doit être passé a ${!task.done} ! `);
+    const { list } = this.state;
+    const newList = list.map((item) => {
+      if (task.id === item.id) {
+        const newObj = {
+          ...item, // je récupére le contenu de l'objet !
+          done: !item.done, // j'écrase la propriété done avec une nouvelle valeur décidé !
+        };
+        return newObj;
+      }
+      return item;
+    });
+
+    this.setState({
+      list: newList,
+    });
   }
 
   notDoneTaskCount = () => {
@@ -43,8 +68,18 @@ class App extends React.Component {
     return taskNotDone.length;
   }
 
+  // Une fonction filter !
+  // une fonction qui me sort mes tache avec les done en dernier !
+  getToDoSorted = () => {
+    const { list } = this.state;
+    const notDone = list.filter((item) => !item.done);
+    const done = list.filter((item) => item.done);
+    const newList = [...notDone, ...done];
+    return newList;
+  }
+
   render() {
-    const { inputTask, list } = this.state;
+    const { inputTask } = this.state;
     return (
       <div className="app">
         <Form
@@ -54,7 +89,7 @@ class App extends React.Component {
         />
         <Counter taskNumber={this.notDoneTaskCount()} />
         <Task
-          list={list}
+          list={this.getToDoSorted()}
           key={inputTask}
           onCheck={this.handlecheckTask}
         />
