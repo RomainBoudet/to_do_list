@@ -88,6 +88,22 @@ class App extends React.Component {
   }) 
   }
 
+  favoriTask = (task) => {
+    const {list} =this.state;
+    const newList = list.map((item) => {
+      if(item.id === task.id) {
+        return {
+          ...item,
+          fav: !item.fav // si existe pas, inverse de undefined vaut true !
+        }
+      }
+      return item;
+    })
+    this.setState({
+      list: newList,
+    })
+  }
+
   render() {
     const { inputTask } = this.state;
     return (
@@ -103,6 +119,7 @@ class App extends React.Component {
           key={inputTask}
           onCheck={this.handlecheckTask}
           onDelete={this.deleteTask}
+          onFavori={this.favoriTask}
         />
       </div>
 
