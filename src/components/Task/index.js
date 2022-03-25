@@ -2,29 +2,31 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './style.scss';
 
-const Task = () => (
-  <div>
-    Task
-  </div>
+const Task = ({ list, onCheck }) => (
+  <ul className="todo-list">
+    {list.map((item) => (
+      <li className={item.done ? 'todo todo--done' : 'todo'} key={item.id}>
+        <input
+          type="checkbox"
+          checked={item.done}
+          onChange={() => {
+            onCheck(item);
+          }}
+        />
+        <span className="todo-checkbox">{item.label}</span>
+      </li>
+    ))}
+
+  </ul>
 );
 
-export default Task;
-
-// exemple de propType : ou ingredients est un tableau d'objets passé a mon compasant
-// avec 4 clé valeurs, ou je definis le type de chaque clés !
-/* Ingredients.propTypes = {
-
-  ingredients: PropTypes.arrayOf(PropTypes.shape({
+Task.propTypes = {
+  list: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
-    quantity: PropTypes.number.isRequired,
-    unit: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    done: PropTypes.bool.isRequired,
   })).isRequired,
-}; */
+  onCheck: PropTypes.func.isRequired,
 
-/* Header.propTypes = {
-  title: PropTypes.string.isRequired,
-  author: PropTypes.string.isRequired,
-  thumbnail: PropTypes.string.isRequired,
-  difficulty: PropTypes.string.isRequired,
-}; */
+};
+export default Task;

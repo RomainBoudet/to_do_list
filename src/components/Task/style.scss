@@ -1,2 +1,29 @@
 @use 'src/styles/vars';
  
+.todo-list {
+  margin-top: 1em;
+}
+
+.todo {
+  background: #eee;
+  border: 1px solid #ccc;
+  border-radius: 0.3em;
+  font-size: 1.2em;
+  padding: 1em;
+  margin: 0.5em 0;
+  &--remove {
+    float: right;
+  }
+  &--done {
+    opacity: 0.5;
+  }
+  &--isFavorite {
+    background-color: #c0ffee;
+  }
+  &--text {
+    margin-left: 0.5em;
+  }
+  &--done &--text {
+    text-decoration: line-through;
+  }
+}

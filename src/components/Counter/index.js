@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './style.scss';
 
-const Counter = () => (
-  <div>
-    Counter
-  </div>
+const Counter = ({ taskNumber }) => (
+  <p className="todo-counter">
+    {taskNumber} {taskNumber > 1 ? 'tâches' : 'tâche'} en cours
+  </p>
 );
 
 export default Counter;
@@ -22,9 +22,6 @@ export default Counter;
   })).isRequired,
 }; */
 
-/* Header.propTypes = {
-  title: PropTypes.string.isRequired,
-  author: PropTypes.string.isRequired,
-  thumbnail: PropTypes.string.isRequired,
-  difficulty: PropTypes.string.isRequired,
-}; */
+Counter.propTypes = {
+  taskNumber: PropTypes.number.isRequired,
+};
